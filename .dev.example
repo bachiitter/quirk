@@ -1,0 +1,8 @@
+ENVIRONMENT="DEV"
+
+LUCIA_AUTH_URL="http://localhost:8788"
+
+DATABASE_URL="mysql://user:password@localhost:5432/db"
+
+GITHUB_CLIENT_ID=""
+GITHUB_CLIENT_SECRET=""

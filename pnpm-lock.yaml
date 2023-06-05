@@ -8,9 +8,27 @@ dependencies:
   '@fontsource/inter':
     specifier: ^5.0.2
     version: 5.0.2
+  '@lucia-auth/adapter-mysql':
+    specifier: ^1.1.1
+    version: 1.1.1(@planetscale/database@1.7.0)(lucia-auth@1.7.1)
+  '@lucia-auth/oauth':
+    specifier: ^1.1.1
+    version: 1.1.1(lucia-auth@1.7.1)
+  '@planetscale/database':
+    specifier: ^1.7.0
+    version: 1.7.0
   '@tanstack/router':
     specifier: ^0.0.1-beta.86
     version: 0.0.1-beta.86(react-dom@18.2.0)(react@18.2.0)
+  cookie:
+    specifier: ^0.5.0
+    version: 0.5.0
+  lucia-auth:
+    specifier: ^1.7.1
+    version: 1.7.1
+  prisma:
+    specifier: ^4.15.0
+    version: 4.15.0
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -28,6 +46,9 @@ devDependencies:
   '@ianvs/prettier-plugin-sort-imports':
     specifier: ^4.0.2
     version: 4.0.2(prettier@2.8.8)
+  '@types/cookie':
+    specifier: ^0.5.1
+    version: 0.5.1
   '@types/node':
     specifier: ^20.2.5
     version: 20.2.5
@@ -840,6 +861,30 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@lucia-auth/adapter-mysql@1.1.1(@planetscale/database@1.7.0)(lucia-auth@1.7.1):
+    resolution: {integrity: sha512-br+/OBDNJ+eRc6RrZnnC20ef+2VEMrXFxNYvsbryPw64ito7vg40STblpENdjJF0o4R10mjWTO43wQ+56jyXLA==}
+    peerDependencies:
+      '@planetscale/database': ^1.0.0
+      lucia-auth: ^1.4.0
+      mysql2: ^3.0.0
+    peerDependenciesMeta:
+      '@planetscale/database':
+        optional: true
+      mysql2:
+        optional: true
+    dependencies:
+      '@planetscale/database': 1.7.0
+      lucia-auth: 1.7.1
+    dev: false
+
+  /@lucia-auth/oauth@1.1.1(lucia-auth@1.7.1):
+    resolution: {integrity: sha512-GeUetiZlSSThb610CzNrUD+D/lo2gbtjscQhQoqKjJStW9qKmhk8qJjhnrrNdNlIJIND/9/Dv1X9FtStMootpA==}
+    peerDependencies:
+      lucia-auth: 1.x
+    dependencies:
+      lucia-auth: 1.7.1
+    dev: false
+
   /@miniflare/cache@2.13.0:
     resolution: {integrity: sha512-y3SdN3SVyPECWmLAEGkkrv0RB+LugEPs/FeXn8QtN9aE1vyj69clOAgmsDzoh1DpFfFsLKRiv05aWs4m79P8Xw==}
     engines: {node: '>=16.13'}
@@ -1032,6 +1077,16 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@planetscale/database@1.7.0:
+    resolution: {integrity: sha512-lWR6biXChUyQnxsT4RT1CIeR3ZJvwTQXiQ+158MnY3VjLwjHEGakDzdH9kwUGPk6CHvu6UeqRXp1DgUOVHJFTw==}
+    engines: {node: '>=16'}
+    dev: false
+
+  /@prisma/engines@4.15.0:
+    resolution: {integrity: sha512-FTaOCGs0LL0OW68juZlGxFtYviZa4xdQj/rQEdat2txw0s3Vu/saAPKjNVXfIgUsGXmQ72HPgNr6935/P8FNAA==}
+    requiresBuild: true
+    dev: false
+
   /@swc/core-darwin-arm64@1.3.62:
     resolution: {integrity: sha512-MmGilibITz68LEje6vJlKzc2gUUSgzvB3wGLSjEORikTNeM7P8jXVxE4A8fgZqDeudJUm9HVWrxCV+pHDSwXhA==}
     engines: {node: '>=10'}
@@ -1181,6 +1236,10 @@ packages:
     resolution: {integrity: sha512-dzrRZCYPXIXfSR1/surNbJ/grU3scTaygS0OMzjlGf71i9sc2fGyHPXXiXmEvNIoE0cGwsanEFMVJxPXmco9Eg==}
     dependencies:
       '@types/node': 20.2.5
+    dev: true
+
+  /@types/cookie@0.5.1:
+    resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
     dev: true
 
   /@types/json-schema@7.0.12:
@@ -1638,6 +1697,11 @@ packages:
     resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
     engines: {node: '>= 0.6'}
     dev: true
+
+  /cookie@0.5.0:
+    resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
+    engines: {node: '>= 0.6'}
+    dev: false
 
   /cron-schedule@3.0.6:
     resolution: {integrity: sha512-izfGgKyzzIyLaeb1EtZ3KbglkS6AKp9cv7LxmiyoOu+fXfol1tQDC0Cof0enVZGNtudTHW+3lfuW9ZkLQss4Wg==}
@@ -2623,6 +2687,10 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /lucia-auth@1.7.1:
+    resolution: {integrity: sha512-QXTWdcDpQfpA1c64LXo80Imfk8V8Hn5w+Rmv+DPbArSJc4nPYVxbBR4+XwTcnW7YQOeoo7yNLXMjYOQDW27eNg==}
+    dev: false
+
   /magic-string@0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
     dependencies:
@@ -3050,6 +3118,15 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
+
+  /prisma@4.15.0:
+    resolution: {integrity: sha512-iKZZpobPl48gTcSZVawLMQ3lEy6BnXwtoMj7hluoGFYu2kQ6F9LBuBrUyF95zRVnNo8/3KzLXJXJ5TEnLSJFiA==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': 4.15.0
+    dev: false
 
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
