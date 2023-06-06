@@ -23,10 +23,16 @@ declare module "@tanstack/router" {
   }
 }
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+function App() {
+  return (
     <HelmetProvider>
       <RouterProvider router={router} />
     </HelmetProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
   </React.StrictMode>,
 );
