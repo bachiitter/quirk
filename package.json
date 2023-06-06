@@ -6,6 +6,8 @@
     "node": ">=v18.16.0"
   },
   "scripts": {
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
     "check": "pnpm lint:check && pnpm format:check && pnpm typecheck",
     "dev": "wrangler pages dev --compatibility-date=2023-05-10 -- pnpm vite",
     "build": "vite build",
