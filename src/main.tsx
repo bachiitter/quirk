@@ -6,13 +6,15 @@ import { HelmetProvider } from "react-helmet-async";
 import "@fontsource/inter";
 
 import { appRoute } from "~/pages/_app";
-import { IndexRoute } from "~/pages/index";
 
 import "~/styles/index.css";
 
 import { AuthProvider } from "./context/auth";
+import { IndexRoute, MarketingRoute } from "./pages/marketing";
 
-const routeTree = appRoute.addChildren([IndexRoute]);
+const routeTree = appRoute.addChildren([
+  MarketingRoute.addChildren([IndexRoute]),
+]);
 
 const router = new Router({
   routeTree,

@@ -2,10 +2,10 @@ import { Route } from "@tanstack/router";
 
 import { useAuth, useSignOut } from "~/context/auth";
 
-import { appRoute } from "./_app";
+import { MarketingRoute } from "./layout";
 
 export const IndexRoute = new Route({
-  getParentRoute: () => appRoute,
+  getParentRoute: () => MarketingRoute,
   path: "/",
   component: Home,
 });
