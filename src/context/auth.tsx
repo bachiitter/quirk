@@ -105,10 +105,10 @@ export function signIn(provider?: string) {
 
 // Helper to redirect to signout
 
-export function signOut() {
-  window.location.href = "/";
-
+export function useSignOut() {
   return React.useCallback(async () => {
+    window.location.href = "/";
+
     const res = await fetch("/api/auth/signout", {
       method: "POST",
     });
