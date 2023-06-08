@@ -10,6 +10,8 @@ import { IndexRoute } from "~/pages/index";
 
 import "~/styles/index.css";
 
+import { AuthProvider } from "./context/auth";
+
 const routeTree = appRoute.addChildren([IndexRoute]);
 
 const router = new Router({
@@ -25,9 +27,11 @@ declare module "@tanstack/router" {
 
 function App() {
   return (
-    <HelmetProvider>
-      <RouterProvider router={router} />
-    </HelmetProvider>
+    <AuthProvider>
+      <HelmetProvider>
+        <RouterProvider router={router} />
+      </HelmetProvider>
+    </AuthProvider>
   );
 }
 
