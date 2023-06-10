@@ -3,13 +3,18 @@ import ReactDOM from "react-dom/client";
 import { Router, RouterProvider } from "@tanstack/router";
 import { HelmetProvider } from "react-helmet-async";
 
-import "@fontsource/inter";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/inter/800.css";
 
 import { appRoute } from "~/pages/_app";
 
 import "~/styles/index.css";
 
 import { AuthProvider } from "./context/auth";
+import { ThemeProvider } from "./context/theme";
 import { IndexRoute, MarketingRoute } from "./pages/marketing";
 
 const routeTree = appRoute.addChildren([
@@ -29,11 +34,13 @@ declare module "@tanstack/router" {
 
 function App() {
   return (
-    <AuthProvider>
-      <HelmetProvider>
-        <RouterProvider router={router} />
-      </HelmetProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <HelmetProvider>
+          <RouterProvider router={router} />
+        </HelmetProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
