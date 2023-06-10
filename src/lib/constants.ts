@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
   name: "Quirk",
   description:
     "Build full-stack web apps using React and Cloudflare Pages/Functions",
-  url: "",
+  url: "http://bachitter.dev",
   ogImage: "",
   links: {
     twitter: "https://twitter.com/bachiitter",
