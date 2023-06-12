@@ -50,6 +50,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
         email: providerUser.email,
         image: providerUser.avatar_url,
         provider: "github",
+        provider_id: providerUser.id.toString(),
       });
     };
 
