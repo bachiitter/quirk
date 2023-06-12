@@ -44,7 +44,6 @@ export const auth = (env: Env) => {
         email: databaseUser.email,
         image: databaseUser.image,
         provider: databaseUser.provider,
-        provider_id: databaseUser.provider_id,
       };
     },
     getSessionAttributes: (sessionData) => {

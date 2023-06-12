@@ -11,15 +11,14 @@ generator kysely {
 }
 
 model User {
-  id          String    @id @unique
-  name        String?
-  username    String    @unique
-  email       String    @unique
-  image       String?
-  provider    String
-  provider_id String
-  session     Session[]
-  key         Key[]
+  id       String    @id @unique
+  name     String?
+  username String    @unique
+  email    String    @unique
+  image    String?
+  provider String
+  session  Session[]
+  key      Key[]
 
   @@map("user")
 }

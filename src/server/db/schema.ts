@@ -24,7 +24,6 @@ export interface User {
   email: string;
   image: string | null;
   provider: string;
-  provider_id: string;
 }
 export interface DB {
   key: Key;

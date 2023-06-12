@@ -9,7 +9,6 @@ declare namespace Lucia {
     email: string | null;
     image: string | null;
     provider: string;
-    provider_id: string;
   }
   interface DatabaseSessionAttributes {
     created_at: Date;
