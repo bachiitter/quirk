@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate, Route } from "@tanstack/router";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -55,6 +56,7 @@ function Settings() {
 
   return (
     <>
+      <Helmet title="Settings" />
       <div className="space-y-6">
         <div className="space-y-0.5">
           <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
