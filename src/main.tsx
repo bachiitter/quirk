@@ -15,10 +15,13 @@ import "~/styles/index.css";
 
 import { AuthProvider } from "./context/auth";
 import { ThemeProvider } from "./context/theme";
+import { DashboardRoute } from "./pages/dashboard/layout";
+import { DashboardIndexRoute } from "./pages/dashboard/page";
 import { IndexRoute, MarketingRoute } from "./pages/marketing";
 
 const routeTree = appRoute.addChildren([
   MarketingRoute.addChildren([IndexRoute]),
+  DashboardRoute.addChildren([DashboardIndexRoute]),
 ]);
 
 const router = new Router({

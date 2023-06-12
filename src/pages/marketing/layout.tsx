@@ -20,7 +20,9 @@ export const MarketingRoute = new Route({
           </Link>
           <div className="flex items-center gap-2">
             {session ? (
-              <Link className={buttonVariants({ variant: "default" })}>
+              <Link
+                className={buttonVariants({ variant: "default" })}
+                to="/dashboard">
                 Dashboard
               </Link>
             ) : (
