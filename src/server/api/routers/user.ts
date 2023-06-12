@@ -29,8 +29,8 @@ export const userRouter = t.router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const provider = ctx.session?.user.provider!;
-      const providerId = ctx.session?.user.provider_id!;
+      const provider = ctx.session.user.provider;
+      const providerId = ctx.session.user.provider_id;
 
       const key = await auth(ctx.env).useKey(
         provider,
