@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import * as React from "react";
-import type { Session, User } from "lucia";
-
-export interface UserSession extends Session {
-  user: User;
-}
+import type { Session } from "lucia";
 
 export type SessionState =
   | {
@@ -13,7 +9,7 @@ export type SessionState =
     }
   | {
       isLoading: false;
-      session: UserSession;
+      session: Session;
     }
   | {
       isLoading: false;
@@ -21,7 +17,7 @@ export type SessionState =
     };
 
 export type AuthContext = {
-  refreshSession: () => Promise<UserSession | null>;
+  refreshSession: () => Promise<Session | null>;
 } & SessionState;
 
 export const AuthContext = React.createContext<AuthContext>({
@@ -40,7 +36,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   React.useEffect(() => {
     let mounted = true;
 
-    void fetchData<UserSession>("/api/auth/session").then((session) => {
+    void fetchData<Session>("/api/auth/session").then((session) => {
       if (mounted) {
         setState({
           isLoading: false,
@@ -55,7 +51,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
   // Helper method to refresh the session.
   const refreshSession = React.useCallback(async () => {
-    const session = await fetchData<UserSession>("/api/auth/session");
+    const session = await fetchData<Session>("/api/auth/session");
 
     return session;
   }, []);
