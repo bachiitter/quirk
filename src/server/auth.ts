@@ -39,7 +39,6 @@ export const auth = (env: Env) => {
     // Properties for User Object
     getUserAttributes: (databaseUser) => {
       return {
-        id: databaseUser.id,
         name: databaseUser.name,
         username: databaseUser.username,
         email: databaseUser.email,

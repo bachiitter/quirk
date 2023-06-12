@@ -36,7 +36,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
       // If existing user, return user data and update profile image,  refresh token and access token
 
       if (existingUser) {
-        await auth(env).updateUserAttributes(existingUser.id, {
+        await auth(env).updateUserAttributes(existingUser.userId, {
           // Update the user profile url everytime user logs in
           image: providerUser.avatar_url,
         });
@@ -59,7 +59,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const authRequest = auth(env).handleRequest(request, headers);
 
     // Create a new session
-    const session = await auth(env).createSession(user.id, {
+    const session = await auth(env).createSession(user.userId, {
       attributes: {
         created_at: new Date(),
       },
