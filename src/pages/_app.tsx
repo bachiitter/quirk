@@ -2,6 +2,7 @@ import { Outlet, RootRoute } from "@tanstack/router";
 import { Helmet } from "react-helmet-async";
 
 import { siteConfig } from "~/lib/constants";
+import { Toaster } from "~/components/ui/toast";
 
 export const appRoute = new RootRoute({
   component: () => {
@@ -34,6 +35,7 @@ export const appRoute = new RootRoute({
           <meta property="twitter:image" content={siteConfig.ogImage} />
         </Helmet>
         <Outlet />
+        <Toaster />
       </>
     );
   },
