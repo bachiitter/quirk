@@ -12,7 +12,9 @@ export const DashboardIndexRoute = new Route({
 
     return (
       <>
-        <pre>{JSON.stringify(session, null, 2)}</pre>
+        <pre className="overflow-auto whitespace-pre-wrap rounded-lg bg-muted p-4 text-sm text-muted-foreground ">
+          <code>{JSON.stringify(session, null, 2)}</code>
+        </pre>
       </>
     );
   },

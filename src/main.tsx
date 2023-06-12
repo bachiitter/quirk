@@ -17,11 +17,12 @@ import { AuthProvider } from "./context/auth";
 import { ThemeProvider } from "./context/theme";
 import { DashboardRoute } from "./pages/dashboard/layout";
 import { DashboardIndexRoute } from "./pages/dashboard/page";
+import { SettingsRoute } from "./pages/dashboard/settings/page";
 import { IndexRoute, MarketingRoute } from "./pages/marketing";
 
 const routeTree = appRoute.addChildren([
   MarketingRoute.addChildren([IndexRoute]),
-  DashboardRoute.addChildren([DashboardIndexRoute]),
+  DashboardRoute.addChildren([DashboardIndexRoute, SettingsRoute]),
 ]);
 
 const router = new Router({

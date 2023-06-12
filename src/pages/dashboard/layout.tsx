@@ -1,10 +1,26 @@
+import type { RegisteredRoutesInfo } from "@tanstack/router";
 import { Link, Navigate, Outlet, Route } from "@tanstack/router";
 
+import { SidebarNav } from "~/components/sidebar-nav";
 import { ThemeToggle } from "~/components/theme-toggle";
 import { UserDialog } from "~/components/user-dialog";
 import { useAuth } from "~/context/auth";
 
 import { appRoute } from "../_app";
+
+const sidebarNavItems: {
+  href: RegisteredRoutesInfo["routePaths"];
+  title: string;
+}[] = [
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+  },
+  {
+    title: "Settings",
+    href: "/dashboard/settings",
+  },
+];
 
 export const DashboardRoute = new Route({
   getParentRoute: () => appRoute,
@@ -30,7 +46,14 @@ export const DashboardRoute = new Route({
             </div>
           </header>
           <main className="container">
-            <Outlet />
+            <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+              <aside className="lg:w-1/5">
+                <SidebarNav items={sidebarNavItems} />
+              </aside>
+              <div className="flex-1 p-10 pb-16 lg:max-w-2xl">
+                <Outlet />
+              </div>
+            </div>
           </main>
         </>
       );
