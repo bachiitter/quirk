@@ -4,11 +4,11 @@ datasource db {
   relationMode = "prisma"
 }
 
-// generator kysely {
-//   provider = "npx prisma-kysely"
-//   output   = "../src/server/db/"
-//   fileName = "schema.ts"
-// }
+generator kysely {
+  provider = "npx prisma-kysely"
+  output   = "../src/server/db/"
+  fileName = "schema.ts"
+}
 
 model AuthUser {
   id           String        @id @unique
