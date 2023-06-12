@@ -30,18 +30,25 @@ export const userRouter = t.router({
     )
     .mutation(async ({ ctx, input }) => {
       const provider = ctx.session.user.provider;
-      const providerId = ctx.session.user.provider_id;
 
-      const key = await auth(ctx.env).useKey(
-        provider,
-        providerId,
-        input.oldPassword,
-      );
+      const keys = await auth(ctx.env).getAllUserKeys(ctx.userId);
 
-      await auth(ctx.env).updateKeyPassword(
-        key.providerId,
-        key.providerUserId,
-        input.newPassword,
-      );
+      const providerKey = keys.find((p) => p.providerId === provider);
+
+      if (providerKey) {
+        const key = await auth(ctx.env).useKey(
+          providerKey.providerId,
+          providerKey.providerUserId,
+          input.oldPassword,
+        );
+
+        await auth(ctx.env).updateKeyPassword(
+          key.providerId,
+          key.providerUserId,
+          input.newPassword,
+        );
+      }
+
+      throw new Error("Could not update password");
     }),
 });
