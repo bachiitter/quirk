@@ -5,11 +5,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { trpc } from "~/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,13 +33,24 @@ export const SettingsRoute = new Route({
   component: Settings,
 });
 
-const accountFormSchema = z.object({
+const profileFormSchema = z.object({
   name: z.string().min(3, {
     message: "Name must be at least 3 characters.",
   }),
+  email: z.string().email({ message: "Invalid email address." }),
 });
 
-type AccountFormValues = z.infer<typeof accountFormSchema>;
+const passwordFormSchema = z.object({
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
+  }),
+  newPassword: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
+  }),
+});
+
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
+type PasswordFormValues = z.infer<typeof passwordFormSchema>;
 
 function Settings() {
   const { session, isLoading, refreshSession } = useAuth();
@@ -43,28 +59,39 @@ function Settings() {
     return <Navigate to="/" />;
   }
 
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
+  const profileForm = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
     mode: "onChange",
     defaultValues: {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       name: session?.user.name!,
+      email: session?.user.email!,
     },
   });
 
-  const nameMutation = trpc.user.name.useMutation({
-    onSettled: async () => {
+  const profileMutation = trpc.user.profile.useMutation({
+    onSuccess: async () => {
       await refreshSession();
       toast({ description: "Your profile has been updated." });
-      window.location.reload();
+      // window.location.reload();
     },
   });
 
-  function onSubmit(data: AccountFormValues) {
-    nameMutation.mutate({
-      name: data.name,
-    });
-  }
+  const passwordForm = useForm<PasswordFormValues>({
+    resolver: zodResolver(passwordFormSchema),
+    mode: "onChange",
+    defaultValues: {
+      password: "",
+      newPassword: "",
+    },
+  });
+
+  const passwordMutation = trpc.user.password.useMutation({
+    onSuccess: async () => {
+      await refreshSession();
+      toast({ description: "Your password has been updated." });
+      // window.location.reload();
+    },
+  });
 
   return (
     <>
@@ -79,34 +106,98 @@ function Settings() {
         <Separator className="my-6" />
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
           <div className="flex-1 lg:max-w-2xl">
-            <div className="space-y-6">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-8">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Your Name</FormLabel>
-
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Please enter your full name or a display name you are
-                          comfortable with.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button type="submit">Update profile</Button>
-                </form>
-              </Form>
-            </div>
+            <Accordion type="single" collapsible defaultValue="profile">
+              <AccordionItem value="profile">
+                <AccordionTrigger>
+                  <h3 className="text-lg font-medium">Profile</h3>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Form {...profileForm}>
+                    <form
+                      onSubmit={profileForm.handleSubmit((data) => {
+                        profileMutation.mutate({
+                          name: data.name,
+                          email: data.email,
+                        });
+                      })}
+                      className="space-y-8">
+                      <FormField
+                        control={profileForm.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={profileForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email Address</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button type="submit">Update profile</Button>
+                    </form>
+                  </Form>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="password">
+                <AccordionTrigger>
+                  <h3 className="text-lg font-medium">Password</h3>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Form {...passwordForm}>
+                    <form
+                      onSubmit={passwordForm.handleSubmit((data) => {
+                        passwordMutation.mutate({
+                          oldPassword: data.password,
+                          newPassword: data.newPassword,
+                        });
+                      })}
+                      className="space-y-8">
+                      <FormField
+                        control={passwordForm.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Current Password</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="password" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={passwordForm.control}
+                        name="newPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>New Password</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="password" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button type="submit">Update Password</Button>
+                    </form>
+                  </Form>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       </div>
