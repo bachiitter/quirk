@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import ReactDOM from "react-dom/client";
 import { Router, RouterProvider } from "@tanstack/router";
 import { HelmetProvider } from "react-helmet-async";
@@ -14,11 +14,12 @@ import { appRoute } from "~/pages/_app";
 import "~/styles/index.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { httpBatchLink } from "@trpc/client";
+import { httpBatchLink, loggerLink } from "@trpc/client";
 
-import { AuthProvider } from "./context/auth";
-import { ThemeProvider } from "./context/theme";
-import { trpc } from "./lib/utils";
+import { isDev, trpc } from "~/lib/utils";
+import { AuthProvider } from "~/context/auth";
+import { ThemeProvider } from "~/context/theme";
+
 import { DashboardRoute } from "./pages/dashboard/layout";
 import { DashboardIndexRoute } from "./pages/dashboard/page";
 import { SettingsRoute } from "./pages/dashboard/settings/page";
@@ -40,16 +41,39 @@ declare module "@tanstack/router" {
   }
 }
 
+const baseURL = isDev
+  ? "http://localhost:8788/api/trpc"
+  : `${window.location.protocol}//${window.location.host}/api/trpc`;
+
 function App() {
-  const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      links: [
-        httpBatchLink({
-          url: "/api/trpc",
-        }),
-      ],
-    }),
+  const queryClient = useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            staleTime: 1000,
+          },
+        },
+      }),
+    [],
+  );
+
+  const trpcClient = useMemo(
+    () =>
+      trpc.createClient({
+        links: [
+          loggerLink({
+            enabled: (opts) =>
+              (isDev && typeof window !== "undefined") ||
+              (opts.direction === "down" && opts.result instanceof Error),
+          }),
+          httpBatchLink({
+            url: `${baseURL}`,
+          }),
+        ],
+      }),
+    [],
   );
 
   return (
