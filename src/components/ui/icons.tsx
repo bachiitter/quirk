@@ -1,10 +1,5 @@
-import {
-  Laptop,
-  Pizza,
-  Twitter,
-  type Icon as LucideIcon,
-  type LucideProps,
-} from "lucide-react";
+import { Laptop, Pizza, Twitter } from "lucide-react";
+import type { Icon as LucideIcon, LucideProps } from "lucide-react";
 
 export type Icon = LucideIcon;
 
