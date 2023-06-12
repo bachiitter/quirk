@@ -4,7 +4,7 @@ import { appRouter } from "~/server/api/_app";
 import { createContext } from "~/server/api/trpc";
 import type { Env } from "~/server/env";
 
-export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+const handler = async ({ request, env }: { request: Request; env: Env }) => {
   return fetchRequestHandler({
     endpoint: "/api/trpc",
     req: request,
@@ -13,11 +13,5 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   });
 };
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
-  return fetchRequestHandler({
-    endpoint: "/api/trpc",
-    req: request,
-    router: appRouter,
-    createContext: createContext({ env, req: request }),
-  });
-};
+export const onRequest: PagesFunction<Env> = ({ request, env }) =>
+  handler({ request, env });

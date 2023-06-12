@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { z } from "zod";
 
 import { auth } from "~/server/auth";
@@ -35,20 +36,16 @@ export const userRouter = t.router({
 
       const providerKey = keys.find((p) => p.providerId === provider);
 
-      if (providerKey) {
-        const key = await auth(ctx.env).useKey(
-          providerKey.providerId,
-          providerKey.providerUserId,
-          input.oldPassword,
-        );
+      const key = await auth(ctx.env).useKey(
+        providerKey?.providerId!,
+        providerKey?.providerUserId!,
+        input.oldPassword,
+      );
 
-        await auth(ctx.env).updateKeyPassword(
-          key.providerId,
-          key.providerUserId,
-          input.newPassword,
-        );
-      }
-
-      throw new Error("Could not update password");
+      await auth(ctx.env).updateKeyPassword(
+        key.providerId,
+        key.providerUserId,
+        input.newPassword,
+      );
     }),
 });
