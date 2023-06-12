@@ -41,12 +41,30 @@ dependencies:
   '@radix-ui/react-slot':
     specifier: ^1.0.2
     version: 1.0.2(@types/react@18.2.11)(react@18.2.0)
+  '@tanstack/react-query':
+    specifier: ^4.29.12
+    version: 4.29.12(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/router':
     specifier: ^0.0.1-beta.86
     version: 0.0.1-beta.86(react-dom@18.2.0)(react@18.2.0)
+  '@trpc/client':
+    specifier: ^10.30.0
+    version: 10.30.0(@trpc/server@10.30.0)
+  '@trpc/react-query':
+    specifier: ^10.30.0
+    version: 10.30.0(@tanstack/react-query@4.29.12)(@trpc/client@10.30.0)(@trpc/server@10.30.0)(react-dom@18.2.0)(react@18.2.0)
+  '@trpc/server':
+    specifier: ^10.30.0
+    version: 10.30.0
   cookie:
     specifier: ^0.5.0
     version: 0.5.0
+  kysely:
+    specifier: ^0.25.0
+    version: 0.25.0
+  kysely-planetscale:
+    specifier: ^1.3.0
+    version: 1.3.0(@planetscale/database@1.7.0)(kysely@0.25.0)
   lucia:
     specifier: 2.0.0-beta.0
     version: 2.0.0-beta.0
@@ -1490,6 +1508,28 @@ packages:
       '@swc/core-win32-x64-msvc': 1.3.62
     dev: true
 
+  /@tanstack/query-core@4.29.11:
+    resolution: {integrity: sha512-8C+hF6SFAb/TlFZyS9FItgNwrw4PMa7YeX+KQYe2ZAiEz6uzg6yIr+QBzPkUwZ/L0bXvGd1sufTm3wotoz+GwQ==}
+    dev: false
+
+  /@tanstack/react-query@4.29.12(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-zhcN6+zF6cxprxhTHQajHGlvxgK8npnp9uLe9yaWhGc6sYcPWXzyO4raL4HomUzQOPzu3jLvkriJQ7BOrDM8vA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 4.29.11
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
+
   /@tanstack/react-store@0.0.1-beta.86(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-jDz11No4r7mHyLMSqwremt8QaiSS3mMpcMZyWKQL3AH9hc9ygvnF+hTxgp1cZyfpE4vwNZDYf7eRX85TYo3Tyg==}
     engines: {node: '>=12'}
@@ -1521,6 +1561,34 @@ packages:
   /@tanstack/store@0.0.1-beta.86:
     resolution: {integrity: sha512-e49P3Lp44QyvB/1eNwDLmpl9LnfzbnDa6/8csylUgn8Yk0VJu5P7kyRwCwyX8/AoU74H1h0YaAqKl/gbbAE6nA==}
     engines: {node: '>=12'}
+    dev: false
+
+  /@trpc/client@10.30.0(@trpc/server@10.30.0):
+    resolution: {integrity: sha512-utz0qRI4eU3QcHvBwcSONEnt5pWR3Dyk4VFJnySHysBT6GQRRpJifWX5+RxDhFK93LxcAmiirFbYXjZ40gbobw==}
+    peerDependencies:
+      '@trpc/server': 10.30.0
+    dependencies:
+      '@trpc/server': 10.30.0
+    dev: false
+
+  /@trpc/react-query@10.30.0(@tanstack/react-query@4.29.12)(@trpc/client@10.30.0)(@trpc/server@10.30.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-bJnCEsuBv/xqnT76Ur8PI3VYjfCE1MYJ6LafT9nL25Pvfq480r0MFEIF0nQ7AWDZ8hZEDE8UZuicGG1ITpyxkQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^4.18.0
+      '@trpc/client': 10.30.0
+      '@trpc/server': 10.30.0
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@tanstack/react-query': 4.29.12(react-dom@18.2.0)(react@18.2.0)
+      '@trpc/client': 10.30.0(@trpc/server@10.30.0)
+      '@trpc/server': 10.30.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@trpc/server@10.30.0:
+    resolution: {integrity: sha512-pRsrHCuar3fbyOdJvO4b80OMP1Tx/wOSy5Ozy6cFDFWVUmfAyIX3En5Hoysy4cmMUuCsQsfTEYQwo+OcpjzBkg==}
     dev: false
 
   /@types/cookie@0.5.1:
@@ -2074,6 +2142,13 @@ packages:
   /data-uri-to-buffer@2.0.2:
     resolution: {integrity: sha512-ND9qDTLc6diwj+Xe5cdAgVTbLVdXbtxTJRXRhli8Mowuaan+0EJOtdqJ0QCHNSSPyoXGx9HX2/VMnKeC34AChA==}
     dev: true
+
+  /date-fns@2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
+    engines: {node: '>=0.11'}
+    dependencies:
+      '@babel/runtime': 7.22.3
+    dev: false
 
   /debug@3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
@@ -3021,6 +3096,22 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
     dev: true
+
+  /kysely-planetscale@1.3.0(@planetscale/database@1.7.0)(kysely@0.25.0):
+    resolution: {integrity: sha512-lAldOF+Yg2raVvRfyXjBqlZ63ONpNZRpfWUK9WrtEdVUIYJxOhbgzihYaRtb4lHVFNyAZyuSCvatEsK7hszcJg==}
+    peerDependencies:
+      '@planetscale/database': '*'
+      kysely: '*'
+    dependencies:
+      '@planetscale/database': 1.7.0
+      date-fns: 2.30.0
+      kysely: 0.25.0
+    dev: false
+
+  /kysely@0.25.0:
+    resolution: {integrity: sha512-srn0efIMu5IoEBk0tBmtGnoUss4uwvxtbFQWG/U2MosfqIace1l43IFP1PmEpHRDp+Z79xIcKEqmHH3dAvQdQA==}
+    engines: {node: '>=14.0.0'}
+    dev: false
 
   /levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
