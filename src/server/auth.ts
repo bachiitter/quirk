@@ -1,8 +1,8 @@
 import { planetscale } from "@lucia-auth/adapter-mysql";
 import { github } from "@lucia-auth/oauth/providers";
 import { connect } from "@planetscale/database";
-import lucia from "lucia-auth";
-import { web } from "lucia-auth/middleware";
+import { lucia } from "lucia";
+import { web } from "lucia/middleware";
 
 import type { Env } from "./env";
 
@@ -24,21 +24,31 @@ export const auth = (env: Env) => {
 
   return lucia({
     // Database Adapter
-    adapter: planetscale(connection),
+    adapter: planetscale(connection, {
+      key: "auth_key",
+      session: "auth_session",
+      user: "auth_user",
+    }),
     // Environment
     env: env.ENVIRONMENT === "DEV" ? "DEV" : "PROD",
     // Web Middleware because of Cloudflare Workers
     middleware: web(),
     // Generate a random UUID for UserId on User SignUp
-    generateCustomUserId: () => crypto.randomUUID(),
+    generateUserId: () => crypto.randomUUID(),
+
     // Properties for User Object
-    transformDatabaseUser: (databaseUser) => {
+    getUserAttributes: (databaseUser) => {
       return {
         id: databaseUser.id,
         name: databaseUser.name,
         username: databaseUser.username,
         email: databaseUser.email,
         image: databaseUser.image,
+      };
+    },
+    getSessionAttributes: (sessionData) => {
+      return {
+        createdAt: sessionData.created_at,
       };
     },
     experimental: {

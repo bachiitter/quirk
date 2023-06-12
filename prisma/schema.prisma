@@ -27,6 +27,7 @@ model AuthSession {
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
+  created_at     DateTime
   auth_user      AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
@@ -37,8 +38,6 @@ model AuthKey {
   id              String   @id @unique
   hashed_password String?
   user_id         String
-  primary_key     Boolean
-  expires         BigInt?
   auth_user       AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])

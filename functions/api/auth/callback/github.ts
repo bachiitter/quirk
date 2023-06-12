@@ -59,7 +59,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const authRequest = auth(env).handleRequest(request, headers);
 
     // Create a new session
-    const session = await auth(env).createSession(user.id);
+    const session = await auth(env).createSession(user.id, {
+      attributes: {
+        created_at: new Date(),
+      },
+    });
 
     //  Set the session in the request
     authRequest.setSession(session);

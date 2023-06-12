@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import * as React from "react";
-import type { Session, User } from "lucia-auth";
+import type { Session, User } from "lucia";
 
 export interface UserSession extends Session {
   user: User;
