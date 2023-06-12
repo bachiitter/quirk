@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Navigate, Route } from "@tanstack/router";
+import { Navigate, Route, useRouter } from "@tanstack/router";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { trpc } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -35,7 +36,8 @@ const accountFormSchema = z.object({
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
 function Settings() {
-  const { session, isLoading } = useAuth();
+  const { session, isLoading, refreshSession } = useAuth();
+  const router = useRouter();
 
   if (!isLoading && !session) {
     return <Navigate to="/" />;
@@ -50,8 +52,18 @@ function Settings() {
     },
   });
 
+  const nameMutation = trpc.user.name.useMutation({
+    onSettled: async () => {
+      alert("Your profile has been updated.");
+      await refreshSession();
+      router.reload();
+    },
+  });
+
   function onSubmit(data: AccountFormValues) {
-    console.warn(data);
+    nameMutation.mutate({
+      name: data.name,
+    });
   }
 
   return (
