@@ -25,9 +25,9 @@ export const auth = (env: Env) => {
   return lucia({
     // Database Adapter
     adapter: planetscale(connection, {
-      key: "auth_key",
-      session: "auth_session",
-      user: "auth_user",
+      key: "key",
+      session: "session",
+      user: "user",
     }),
     // Environment
     env: env.ENVIRONMENT === "DEV" ? "DEV" : "PROD",
@@ -43,6 +43,7 @@ export const auth = (env: Env) => {
         username: databaseUser.username,
         email: databaseUser.email,
         image: databaseUser.image,
+        provider: databaseUser.provider,
       };
     },
     getSessionAttributes: (sessionData) => {

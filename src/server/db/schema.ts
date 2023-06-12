@@ -5,27 +5,28 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-export interface AuthKey {
+export interface Key {
   id: string;
   hashed_password: string | null;
   user_id: string;
 }
-export interface AuthSession {
+export interface Session {
   id: string;
   user_id: string;
   active_expires: number;
   idle_expires: number;
   created_at: Timestamp;
 }
-export interface AuthUser {
+export interface User {
   id: string;
   name: string | null;
   username: string;
   email: string;
   image: string | null;
+  provider: string;
 }
 export interface DB {
-  auth_key: AuthKey;
-  auth_session: AuthSession;
-  auth_user: AuthUser;
+  key: Key;
+  session: Session;
+  user: User;
 }

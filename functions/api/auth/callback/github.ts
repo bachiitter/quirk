@@ -49,6 +49,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
         username: providerUser.login,
         email: providerUser.email,
         image: providerUser.avatar_url,
+        provider: "github",
       });
     };
 
