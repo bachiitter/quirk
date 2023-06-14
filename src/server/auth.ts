@@ -50,6 +50,7 @@ export const auth = (env: Env) => {
       return {
         createdAt: sessionData.created_at,
         deviceType: sessionData.device_type,
+        browserName: sessionData.browser_name,
       };
     },
     experimental: {
