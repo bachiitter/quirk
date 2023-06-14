@@ -16,6 +16,8 @@ export interface Session {
   active_expires: number;
   idle_expires: number;
   created_at: Timestamp;
+  device_type: string;
+  browser_name: string;
 }
 export interface User {
   id: string;

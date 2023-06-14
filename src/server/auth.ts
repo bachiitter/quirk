@@ -49,6 +49,7 @@ export const auth = (env: Env) => {
     getSessionAttributes: (sessionData) => {
       return {
         createdAt: sessionData.created_at,
+        deviceType: sessionData.device_type,
       };
     },
     experimental: {

@@ -29,6 +29,8 @@ model Session {
   active_expires BigInt
   idle_expires   BigInt
   created_at     DateTime
+  device_type    String
+  browser_name   String
   user           User     @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])

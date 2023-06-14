@@ -12,5 +12,7 @@ declare namespace Lucia {
   }
   interface DatabaseSessionAttributes {
     created_at: Date;
+    device_type: string;
+    browser_name: string;
   }
 }

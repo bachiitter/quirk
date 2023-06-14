@@ -2,7 +2,7 @@ import { parse } from "cookie";
 
 import { auth, githubProvider } from "~/server/auth";
 import type { Env } from "~/server/env";
-import { jsonResp } from "~/server/utils";
+import { getBrowserName, getDeviceType, jsonResp } from "~/server/utils";
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const url = new URL(request.url);
@@ -63,6 +63,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     const session = await auth(env).createSession(user.userId, {
       attributes: {
         created_at: new Date(),
+        device_type: getDeviceType(request),
+        browser_name: getBrowserName(request),
       },
     });
 
