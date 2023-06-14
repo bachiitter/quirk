@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate, Route } from "@tanstack/router";
 import { Helmet } from "react-helmet-async";
@@ -13,6 +14,15 @@ import {
 } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import {
   Form,
   FormControl,
   FormField,
@@ -21,6 +31,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
 import { useAuth } from "~/context/auth";
 import { toast } from "~/hooks/use-toast";
@@ -63,8 +74,8 @@ function Settings() {
     resolver: zodResolver(profileFormSchema),
     mode: "onChange",
     defaultValues: {
-      name: session?.user.name!,
-      email: session?.user.email!,
+      name: session?.user.name as string | undefined,
+      email: session?.user.email as string | undefined,
     },
   });
 
@@ -92,6 +103,18 @@ function Settings() {
       // window.location.reload();
     },
   });
+
+  const accountDeleteMutation = trpc.user.delete.useMutation({
+    onSuccess: () => {
+      toast({
+        description: "Your account has been deleted.",
+      });
+
+      setTimeout(() => (window.location.href = "/"), 1000);
+    },
+  });
+
+  const [deleteDisabled, setDeleteDisabled] = useState(true);
 
   return (
     <>
@@ -141,13 +164,20 @@ function Settings() {
                           <FormItem>
                             <FormLabel>Email Address</FormLabel>
                             <FormControl>
-                              <Input {...field} />
+                              <Input
+                                {...field}
+                                disabled={session?.user.provider !== "email"}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      <Button type="submit">Update profile</Button>
+                      <Button
+                        disabled={session?.user.provider !== "email"}
+                        type="submit">
+                        Update profile
+                      </Button>
                     </form>
                   </Form>
                 </AccordionContent>
@@ -173,7 +203,11 @@ function Settings() {
                           <FormItem>
                             <FormLabel>Current Password</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password" />
+                              <Input
+                                {...field}
+                                disabled={session?.user.provider !== "email"}
+                                type="password"
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -186,18 +220,74 @@ function Settings() {
                           <FormItem>
                             <FormLabel>New Password</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password" />
+                              <Input
+                                {...field}
+                                disabled={session?.user.provider !== "email"}
+                                type="password"
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      <Button type="submit">Update Password</Button>
+                      <Button
+                        disabled={session?.user.provider !== "email"}
+                        type="submit">
+                        Update Password
+                      </Button>
                     </form>
                   </Form>
                 </AccordionContent>
               </AccordionItem>
+              <AccordionItem value="billing">
+                <AccordionTrigger>
+                  <h3 className="text-lg font-medium">API Keys</h3>
+                </AccordionTrigger>
+                <AccordionContent></AccordionContent>
+              </AccordionItem>
             </Accordion>
+            <section>
+              <h3 className="py-4 text-lg font-medium">
+                Delete Personal Account
+              </h3>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="destructive">Delete Account</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Delete Personal Account</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your account and remove your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div>
+                    <Label>
+                      Enter <strong>delete my account</strong> to continue:
+                    </Label>
+                    <Input
+                      className="mt-2"
+                      onChange={(e) => {
+                        e.preventDefault();
+                        if (e.target.value === "delete my account") {
+                          setDeleteDisabled(false);
+                        }
+                      }}
+                      type="text"
+                    />
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      variant="destructive"
+                      onClick={() => accountDeleteMutation.mutate()}
+                      disabled={deleteDisabled}>
+                      Delete Account
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </section>
           </div>
         </div>
       </div>

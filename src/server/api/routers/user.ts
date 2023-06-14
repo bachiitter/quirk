@@ -48,4 +48,7 @@ export const userRouter = t.router({
         input.newPassword,
       );
     }),
+  delete: protectedProcedure.mutation(async ({ ctx }) => {
+    return await auth(ctx.env).deleteUser(ctx.userId);
+  }),
 });
