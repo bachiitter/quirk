@@ -241,7 +241,7 @@ function Settings() {
               </AccordionItem>
               <AccordionItem value="billing">
                 <AccordionTrigger>
-                  <h3 className="text-lg font-medium">API Keys</h3>
+                  <h3 className="text-lg font-medium">Billing</h3>
                 </AccordionTrigger>
                 <AccordionContent></AccordionContent>
               </AccordionItem>
