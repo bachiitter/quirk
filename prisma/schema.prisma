@@ -17,6 +17,10 @@ model User {
   email    String    @unique
   image    String?
   provider String
+  stripe_customer_id       String?   @unique
+  stripe_subscription_id   String?   @unique
+  stripe_price_id          String?   
+  stripe_current_period_end DateTime? 
   session  Session[]
   key      Key[]
 

@@ -16,3 +16,9 @@ export const trpc = createTRPCReact<AppRouter>();
 
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export const formatDate = (date: any) => {
+  return new Intl.DateTimeFormat("en-Us", {
+    dateStyle: "long",
+  }).format(date);
+};

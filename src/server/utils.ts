@@ -1,3 +1,7 @@
+import Stripe from "stripe";
+
+import type { Env } from "./env";
+
 // A helper function to create a JSON respons
 export const jsonResp = <T>(body: T, status: number) =>
   new Response(JSON.stringify(body), {
@@ -63,3 +67,10 @@ export const getBrowserName = (request: Request) => {
 
   return browserName;
 };
+
+export const stripe = (env: Env) =>
+  new Stripe(env.STRIPE_API_KEY, {
+    apiVersion: "2022-11-15",
+    typescript: true,
+    httpClient: Stripe.createFetchHttpClient(),
+  });

@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate, Route } from "@tanstack/router";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { trpc } from "~/lib/utils";
+import { cn, formatDate, trpc } from "~/lib/utils";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { Button } from "~/components/ui/button";
+import { Button, buttonVariants } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +30,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { Icons } from "~/components/ui/icons";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
@@ -104,6 +105,8 @@ function Settings() {
     },
   });
 
+  const { data: subscriptionPlan } = trpc.user.subscription.useQuery();
+
   const accountDeleteMutation = trpc.user.delete.useMutation({
     onSuccess: () => {
       toast({
@@ -115,6 +118,34 @@ function Settings() {
   });
 
   const [deleteDisabled, setDeleteDisabled] = useState(true);
+
+  const [isLoadingStripeSession, setIsLoading] = useState<boolean>(false);
+
+  // @ts-expect-error no reponse
+  async function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    setIsLoading(!isLoading);
+
+    // Get a Stripe session URL.
+    const response = await fetch("/api/stripe");
+
+    if (!response.ok) {
+      return toast({
+        title: "Something went wrong.",
+        description: "Please refresh the page and try again.",
+        variant: "destructive",
+      });
+    }
+
+    // Redirect to the Stripe session.
+    // This could be a checkout page for initial upgrade.
+    // Or portal to manage existing subscription.
+    const session = (await response.json()) as any;
+
+    if (session) {
+      window.location.href = session.url;
+    }
+  }
 
   return (
     <>
@@ -243,7 +274,33 @@ function Settings() {
                 <AccordionTrigger>
                   <h3 className="text-lg font-medium">Billing</h3>
                 </AccordionTrigger>
-                <AccordionContent></AccordionContent>
+                <AccordionContent>
+                  <p className="pb-2">
+                    You are currently on the{" "}
+                    <strong>{subscriptionPlan?.plan.name}</strong> plan.
+                  </p>
+                  <form onSubmit={onSubmit}>
+                    <button
+                      type="submit"
+                      className={cn(buttonVariants())}
+                      disabled={isLoadingStripeSession}>
+                      {isLoadingStripeSession && (
+                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      {subscriptionPlan?.isPro
+                        ? "Manage Subscription"
+                        : "Upgrade to PRO"}
+                    </button>
+                    {subscriptionPlan?.isPro ? (
+                      <p className="mt-2 rounded-full text-xs font-medium">
+                        {subscriptionPlan.isCanceled
+                          ? "Your plan will be canceled on "
+                          : "Your plan renews on "}
+                        {formatDate(subscriptionPlan.stripeCurrentPeriodEnd)}.
+                      </p>
+                    ) : null}
+                  </form>
+                </AccordionContent>
               </AccordionItem>
             </Accordion>
             <section>
@@ -256,7 +313,7 @@ function Settings() {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Delete Personal Account</DialogTitle>
+                    <DialogTitle>Delete Account</DialogTitle>
                     <DialogDescription>
                       This action cannot be undone. This will permanently delete
                       your account and remove your data from our servers.
