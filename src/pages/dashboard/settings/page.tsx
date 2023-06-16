@@ -1,18 +1,19 @@
-import { FormEvent, useState } from "react";
+import type { FormEvent } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate, Route } from "@tanstack/router";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { cn, formatDate, trpc } from "~/lib/utils";
+import { formatDate, trpc } from "~/lib/utils";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -280,17 +281,14 @@ function Settings() {
                     <strong>{subscriptionPlan?.plan.name}</strong> plan.
                   </p>
                   <form onSubmit={onSubmit}>
-                    <button
-                      type="submit"
-                      className={cn(buttonVariants())}
-                      disabled={isLoadingStripeSession}>
+                    <Button type="submit" disabled={isLoadingStripeSession}>
                       {isLoadingStripeSession && (
                         <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                       )}
                       {subscriptionPlan?.isPro
                         ? "Manage Subscription"
                         : "Upgrade to PRO"}
-                    </button>
+                    </Button>
                     {subscriptionPlan?.isPro ? (
                       <p className="mt-2 rounded-full text-xs font-medium">
                         {subscriptionPlan.isCanceled
