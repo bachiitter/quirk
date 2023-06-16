@@ -12,6 +12,7 @@ An opinionated open-source template for building full-stack web apps using React
 - TailwindCSS - css
 - shadcn/ui - ui
 - Lucia - auth
+- Stripe - subscriptions
 - tRPC - api
 - kysely - query builder
 - prisma - schema management tool
