@@ -73,8 +73,6 @@ export const onRequest: PagesFunction<Env> = async ({ request, env }) => {
       return new Response(JSON.stringify(error.issues), { status: 422 });
     }
 
-    console.log(error);
-
     return new Response(null, { status: 500 });
   }
 };
